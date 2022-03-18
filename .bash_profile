@@ -26,7 +26,6 @@ export HISTCONTROL=ignoreboth:erasedups
 export GLOBIGNORE=".:.."
 export EDITOR="vim"
 export VISUAL="vim"
-export GIT_PS1_SHOWDIRTYSTATE=1
 type -P dircolors >/dev/null && eval "$(dircolors -b)"
 
 # Our bashrc does nothing for non-interactive shells

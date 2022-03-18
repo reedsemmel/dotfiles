@@ -51,23 +51,15 @@ else
 	prompt_second_line="\[\e[32m\]$prompt_second_line\[\e[0m\]"
 fi
 
-if [[ -r "$HOME/.bash_sources/git-prompt.sh" ]]; then
-	. "$HOME/.bash_sources/git-prompt.sh"
-	prompt_git='\[\e[48;5;246m\]$(__git_ps1 " (%s) ")'
-else
-	prompt_git=''
-fi
-
 prompt_time='\[\e[38;5;233m\e[48;5;255m\] \t '
 prompt_user_host="\[\e[48;5;252m\] ${prompt_user_host} "
 prompt_path='\[\e[48;5;249m\] \w '
 prompt_status='$(declare -a x=(${PIPESTATUS[*]}); if [[ x[-1] -ne 0 ]]; then echo -ne "\[\e[41m\] ${x[@]} "; else echo -ne "\[\e[42m\] ${x[@]} "; fi)'
 
-PS1="${prompt_time}${prompt_user_host}${prompt_path}${prompt_git}${prompt_status}\[\e[0m\]\n${prompt_second_line}"
+PS1="${prompt_time}${prompt_user_host}${prompt_path}${prompt_status}\[\e[0m\]\n${prompt_second_line}"
 
 unset prompt_user_host
 unset prompt_second_line
-unset prompt_git
 unset prompt_time
 unset prompt_path
 unset prompt_status
