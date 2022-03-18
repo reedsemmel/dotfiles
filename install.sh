@@ -15,8 +15,7 @@ fi
 
 dotfiles+=(".bashrc")
 dotfiles+=(".bash_profile")
-dotfiles+=(".config/i3/config")
-dotfiles+=(".config/i3status/config")
+dotfiles+=(".config/nvim/init.vim")
 
 cd "$(dirname -- "${BASH_SOURCE[0]}")"
 
