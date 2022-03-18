@@ -34,7 +34,7 @@ type -P dircolors >/dev/null && eval "$(dircolors -b)"
 
 # Source a machine-local profile if applicable
 if [ -r "$HOME/.bash.d/profile" ] ; then
-    . $home/.bash.d/profile
+    . $HOME/.bash.d/profile
 fi
 
 # Start up our window manager if we log in through agetty on tty1.
