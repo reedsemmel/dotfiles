@@ -1,22 +1,43 @@
 umask 022
 
-# set PATH so it includes user's private bin if it exists
+# Add some common paths
+
+if [ -d "/usr/local/go/bin" ] ; then
+    PATH="/usr/local/go/bin:$PATH"
+fi
+
+if [ -d "$HOME/.cargo/bin" ] ; then
+    PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-. $HOME/.bashrc
-
+# Environment
+export PATH
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+export HISTCONTROL=ignoreboth:erasedups
+export GLOBIGNORE=".:.."
+export EDITOR="vim"
+export VISUAL="vim"
 export GIT_PS1_SHOWDIRTYSTATE=1
 type -P dircolors >/dev/null && eval "$(dircolors -b)"
 
-# Start up our window manager if we log in through agetty on tty1.
-if [ -z "$DISPLAY" ] && [ $(tty) == "/dev/tty1" ]; then
-    exec startx
+# Our bashrc does nothing for non-interactive shells
+. $HOME/.bashrc
+
+# Source a machine-local profile if applicable
+if [ -r "$HOME/.bash.d/profile" ] ; then
+    . $home/.bash.d/profile
 fi
 
+# Start up our window manager if we log in through agetty on tty1.
+if [ -z "$DISPLAY" ] && [ $(tty) == "/dev/tty1" ] ; then
+    exec startx
+fi

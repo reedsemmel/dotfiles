@@ -8,12 +8,6 @@ if [[ $- != *i* ]]; then
 fi
 
 
-# History
-
-HISTSIZE=5000
-HISTFILESIZE=5000
-export HISTCONTROL=ignoreboth:erasedups
-
 # Shell configurations
 
 shopt -s cdspell # I suck at typing
@@ -22,6 +16,7 @@ shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s extglob
 shopt -s globstar
+shopt -s nullglob
 shopt -s histappend
 shopt -s interactive_comments
 shopt -s no_empty_cmd_completion
@@ -33,26 +28,13 @@ alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 
-type -P nvim >/dev/null && alias vim="nvim"
-type -P doas >/dev/null && alias sudo="doas"
-
-alias d="sudo"
-alias k="kubectl"
 alias l="ls -lah"
-alias m="make"
-alias s="sudo"
+alias m="make -j$(nproc)"
 alias v="vim"
 
 alias g="git"
 alias ga="git add"
 alias gc="git commit" # /usr/bin/gc isn't too useful
-
-# Completion
-
-if [[ -r "$HOME/.bash_sources/kubectl-completion.sh" ]]; then 
-	. "$HOME/.bash_sources/kubectl-completion.sh"
-	complete -F __start_kubectl k
-fi
 
 # Prompt
 
@@ -76,7 +58,6 @@ else
 	prompt_git=''
 fi
 
-
 prompt_time='\[\e[38;5;233m\e[48;5;255m\] \t '
 prompt_user_host="\[\e[48;5;252m\] ${prompt_user_host} "
 prompt_path='\[\e[48;5;249m\] \w '
@@ -91,3 +72,22 @@ unset prompt_time
 unset prompt_path
 unset prompt_status
 
+# enable bash completion in interactive shells
+# Taken from Debian's /etc/bash.bashrc
+# Might need to add another case if distros don't put it in these spots
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Source local configurations
+if [[ -d "$HOME/.bash.d" ]]; then
+    for f in $HOME/.bash.d/[0-9][0-9]*.bash; do
+        if [[ -r $f ]]; then
+            . $f
+        fi
+    done
+fi
