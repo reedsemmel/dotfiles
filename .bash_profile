@@ -33,7 +33,7 @@ type -P dircolors >/dev/null && eval "$(dircolors -b)"
 . $HOME/.bashrc
 
 # Source a machine-local profile if applicable
-if [ -r "$HOME/.bash.d/profile" ] ; then
+if [ -r $HOME/.bash.d/profile ] ; then
     . $HOME/.bash.d/profile
 fi
 
@@ -41,3 +41,6 @@ fi
 if [ -z "$DISPLAY" ] && [ $(tty) == "/dev/tty1" ] ; then
     exec startx
 fi
+
+# Make it so in login shells, our first exit code is 0
+true
