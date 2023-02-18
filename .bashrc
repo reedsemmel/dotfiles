@@ -7,7 +7,6 @@ if [[ $- != *i* ]]; then
     return
 fi
 
-
 # Shell configurations
 
 shopt -s cdspell # I suck at typing
@@ -16,6 +15,7 @@ shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s extglob
 shopt -s globstar
+shopt -s dotglob
 shopt -s nullglob
 shopt -s histappend
 shopt -s interactive_comments
@@ -26,7 +26,7 @@ shopt -s promptvars
 
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
-alias egrep="egrep --color=auto"
+alias ip="ip --color=auto"
 
 alias l="ls -lah"
 alias m="make -j$(nproc)"
@@ -41,14 +41,14 @@ alias gc="git commit" # /usr/bin/gc isn't too useful
 prompt_user_host='\u'
 prompt_second_line=' λ» '
 if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
-	prompt_user_host='\u@\h'
-	prompt_second_line=' λ› '
+    prompt_user_host='\u@\h'
+    prompt_second_line=' λ› '
 fi
 
 if [[ $(id -u) -eq 0 ]]; then
-	prompt_second_line="\[\e[31m\]$prompt_second_line\[\e[0m\]"
+    prompt_second_line="\[\e[31m\]$prompt_second_line\[\e[0m\]"
 else
-	prompt_second_line="\[\e[32m\]$prompt_second_line\[\e[0m\]"
+    prompt_second_line="\[\e[32m\]$prompt_second_line\[\e[0m\]"
 fi
 
 prompt_time='\[\e[38;5;233m\e[48;5;255m\] \t '
@@ -68,18 +68,23 @@ unset prompt_status
 # Taken from Debian's /etc/bash.bashrc
 # Might need to add another case if distros don't put it in these spots
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+fi
+
+if [[ ! -d "$HOME/.bash.d" ]]; then
+    mkdir "$HOME/.bash.d"
 fi
 
 # Source local configurations
-if [[ -d "$HOME/.bash.d" ]]; then
-    for f in $HOME/.bash.d/[0-9][0-9]*.bash; do
-        if [[ -r $f ]]; then
-            . $f
-        fi
-    done
-fi
+for f in $HOME/.bash.d/[0-9][0-9]*.bash; do
+    if [[ -r $f ]]; then
+        . $f
+    fi
+done
+
+# Make sure our exit code on the first prompt will be 0
+true

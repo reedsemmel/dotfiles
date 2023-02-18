@@ -26,6 +26,7 @@ export HISTCONTROL=ignoreboth:erasedups
 export GLOBIGNORE=".:.."
 export EDITOR="vim"
 export VISUAL="vim"
+export PAGER="less"
 type -P dircolors >/dev/null && eval "$(dircolors -b)"
 
 # Our bashrc does nothing for non-interactive shells
