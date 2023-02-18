@@ -56,7 +56,7 @@ prompt_user_host="\[\e[48;5;252m\] ${prompt_user_host} "
 prompt_path='\[\e[48;5;249m\] \w '
 prompt_status='$(declare -a x=(${PIPESTATUS[*]}); if [[ x[-1] -ne 0 ]]; then echo -ne "\[\e[41m\] ${x[@]} "; else echo -ne "\[\e[42m\] ${x[@]} "; fi)'
 
-PS1="${prompt_time}${prompt_user_host}${prompt_path}${prompt_status}\[\e[0m\]\n${prompt_second_line}"
+PS1="${prompt_time}${prompt_user_host}${prompt_path}${prompt_status}\[\e[0m\e[K\]\n${prompt_second_line}"
 
 unset prompt_user_host
 unset prompt_second_line
